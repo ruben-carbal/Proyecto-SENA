@@ -1,0 +1,45 @@
+<!-- Lógica -->
+<script>
+    const buttonAdd = document.querySelector('#nueva-rutina');
+    const formAdd = document.querySelector('#form-rutina');
+
+    buttonAdd.addEventListener('click', nuevaRutina);
+
+    function nuevaRutina() {
+        formAdd.classList.toggle('show');
+    }
+</script>
+
+<!-- componente -->
+<div>
+    <button id="nueva-rutina">Nueva Rutina</button>
+
+    <form id="form-rutina" class="hidden">
+        <div>
+        <label for="nombre-rutina">Nombre de la rutina</label>
+        <input id="nombre-rutina" name="contraseña" />
+        </div>
+        
+        <!-- trata de hacer de esto un componente reutilizable para agregar más -->
+        <div>
+        <label for="nombre-rutina">Ejercicio 1</label>
+        <input id="nombre-rutina" name="contraseña" type="search"/>
+        </div>
+
+        <button type="button">+</button>
+        
+        <button type="submit">Guardar Rutina</button>
+
+    </form>
+</div>
+
+<!-- Estilos -->
+<style>
+    .hidden {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+</style>

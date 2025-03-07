@@ -1,7 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Rutinas from "../components/Rutinas.astro";
+import CrearRutina from "../components/CrearRutina.astro";
 ---
 
 <Layout>
-    <button>Nueva Rutina</button>
+    <Rutinas />
+    <CrearRutina client:load />
 </Layout>
