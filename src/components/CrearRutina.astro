@@ -1,28 +1,46 @@
----
-import Ejercicio from "../layouts/Ejercicio.astro";
----
-
 <!-- Lógica -->
 <script>
     const buttonAdd = document.querySelector('#nueva-rutina');
     const formAdd = document.querySelector('#form-rutina');
     const addExercise = document.querySelector('#agregar-ejercicio');
 
+    let searchEx;
+    let exercises;
+
     buttonAdd.addEventListener('click', nuevaRutina);
     addExercise.addEventListener('input', buscarEjercicios);
 
-    function buscarEjercicios() {
-        fetch('https://exercisedb-api.vercel.app/api/v1/exercises')
-            .then(res => res.json())
-            .then(data => {
-                console.log(data.data.exercises);
-            });
-    }
+    fetch('https://exercisedb-api.vercel.app/api/v1/exercises', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        },
+    })
+        .then(res => res.json())
+        .then(data => {
+            exercises = data.data.exersises;
+            console.log("ejercicios: ", exercises);
+        });
 
+    function buscarEjercicios() {
+        searchEx = addExercise.value;
+    }
     
     function nuevaRutina() {
         formAdd.classList.toggle('show');
     }
+
+    //function search() {
+    //    const params = new URLSearchParams({ search: searchEx, limit: 10 });
+
+    //    fetch('https://exercisedb-api.vercel.app/api/v1/exercises?${params}')
+    //        .then(res => res.json())
+    //        .then(data => {
+    //            exercises = data.data.exercises;
+    //        });
+
+    //}
+
 </script>
 
 <!-- componente -->
@@ -50,7 +68,14 @@ import Ejercicio from "../layouts/Ejercicio.astro";
         <!-- trata de hacer de esto un componente reutilizable para agregar más -->
         <div>
         <label for="agregar-ejercicio">Agregar Ejercicio</label>
-        <input id="agregar-ejercicio" name="agregar-ejercicio" type="search"/>
+        <input id="agregar-ejercicio" name="agregar-ejercicio" type="search" />        
+        <label for="series">Series</label>
+        <input id="series" name="series" />
+        <label for="repeticiones">Repeticiones</label>
+        <input id="repeticiones" name="repeticiones" />
+        <label for="peso">Peso</label>
+        <input id="peso" name="peso" />
+
         <button type="button">+</button>
         </div>
         
