@@ -5,22 +5,21 @@
     const addExercise = document.querySelector('#agregar-ejercicio');
 
     let searchEx;
-    let exercises;
 
     buttonAdd.addEventListener('click', nuevaRutina);
     addExercise.addEventListener('input', buscarEjercicios);
 
-    fetch('https://exercisedb-api.vercel.app/api/v1/exercises', {
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        },
-    })
-        .then(res => res.json())
-        .then(data => {
-            exercises = data.data.exersises;
-            console.log("ejercicios: ", exercises);
-        });
+    const cachedData = localStorage.getItem("exercises");
+    if (!cachedData) {
+        fetch('https://exercisedb-api.vercel.app/api/v1/exercises')
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem("exercises", JSON.stringify(data));
+                console.log("todo salió bien");
+            })
+            .catch(err => console.error("Error: ", err.message));
+    }
+
 
     function buscarEjercicios() {
         searchEx = addExercise.value;
