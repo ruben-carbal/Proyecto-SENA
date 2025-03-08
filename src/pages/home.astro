@@ -1,10 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Rutinas from "../components/Rutinas.astro";
-import CrearRutina from "../components/CrearRutina.astro";
+import CrearRutina from "../components/CrearRutina.jsx";
 ---
 
 <Layout>
     <Rutinas />
-    <CrearRutina />
+    <CrearRutina client:load />
+    <button id="nueva-rutina">Nueva Rutina</button>
 </Layout>
