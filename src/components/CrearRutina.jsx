@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
 
-const addExercise = () => {
-    console.log(nombreRutina + nombreEjercicio + series + reps + peso);
-}
-
 export default function CrearRutina() {
     const [exercises, setExercises] = useState([]);
     const [nombreRutina, setNombreRutina] = useState('');
@@ -11,6 +7,39 @@ export default function CrearRutina() {
     const [series, setSeries] = useState('');
     const [reps, setReps] = useState('');
     const [peso, setPeso] = useState('');
+    const [ejerciciosGuardados, setEjerciciosGuardados] = useState([]);
+    const [rutina, setRutina] = useState([]);
+
+    useEffect(() => {
+        fetch('https://exercisedb-api.vercel.app/api/v1/exercises')
+            .then(response => response.json())
+            .then(data => setExercises(data.data.exercises));
+    }, []);
+
+    const addExercise = () => {
+        const newExercise = {
+            nombre: nombreEjercicio,
+            series: series,
+            reps: reps,
+            peso: peso
+        }
+
+        setEjerciciosGuardados([...ejerciciosGuardados, newExercise]);
+        console.log(ejerciciosGuardados);
+    }
+
+    const guardarRutina = (event) => {
+        event.preventDefault();
+        const newRutina = {
+            nombreRutina,
+            ejerciciosGuardados
+        }
+
+        setRutina([...rutina, newRutina]);
+        setEjerciciosGuardados([]);
+        console.log(rutina);
+    }
+
 
     return (
         <div>
@@ -42,19 +71,17 @@ export default function CrearRutina() {
                             type="search" placeholder='Nombre' />
                     </div>
                     <div>
-                        <input value={series} onChange={e => setSeries(e.target.value)} placeholder='Series' />
-                        <input value={reps} onChange={e => setReps(e.target.value)} placeholder='Reps' />
-                        <input value={peso} onChange={e => setPeso(e.target.value)} placeholder='Peso' />
+                        <input type='number' value={series} onChange={e => setSeries(e.target.value)} placeholder='Series' />
+                        <input type='number' value={reps} onChange={e => setReps(e.target.value)} placeholder='Reps' />
+                        <input type='number' value={peso} onChange={e => setPeso(e.target.value)} placeholder='Peso' />
 
                         <button type="button" onClick={() => addExercise()}>+</button>
                     </div>
 
-                    <button type="submit">Guardar Rutina</button>
+                    <button type="submit" onClick={e => guardarRutina(e)}>Guardar Rutina</button>
                 </div>
             </form>
         </div>
 
     );
 }
-
-
