@@ -16,6 +16,8 @@ export default function CrearRutina() {
             .then(data => setExercises(data.data.exercises));
     }, []);
 
+    // for (const exercise of exercises) 
+
     const addExercise = () => {
         const newExercise = {
             nombre: nombreEjercicio,
@@ -40,6 +42,9 @@ export default function CrearRutina() {
         console.log(rutina);
     }
 
+    const filteredExercises = nombreEjercicio ? exercises.filter(el =>
+        el.name.toLowerCase().includes(nombreEjercicio.toLowerCase())
+    ) : [];
 
     return (
         <div>
@@ -69,6 +74,11 @@ export default function CrearRutina() {
                             value={nombreEjercicio}
                             onChange={e => setNombreEjercicio(e.target.value)}
                             type="search" placeholder='Nombre' />
+                        {
+                            filteredExercises.map(e =>
+                                <div key={e.exerciseId}> {e.name}</div>
+                            )
+                        }
                     </div>
                     <div>
                         <input type='number' value={series} onChange={e => setSeries(e.target.value)} placeholder='Series' />
@@ -80,8 +90,8 @@ export default function CrearRutina() {
 
                     <button type="submit" onClick={e => guardarRutina(e)}>Guardar Rutina</button>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
 
     );
 }
